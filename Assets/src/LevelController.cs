@@ -17,6 +17,8 @@ public class LevelController : MonoBehaviour
     {
         // on death return rabbit to initial position
         rabbit.transform.position = this.startingPosition;
+        rabbit.isAlive = true;
+        rabbit.isBig = false;
     }
 
     // Awake() invokes before Start()
