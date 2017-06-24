@@ -6,8 +6,7 @@ public class Mushroom : Collectable {
 
     protected override void OnRabbitHit(HeroRabbit rabbit)
     {
-        rabbit.isBig = true;
-        rabbit.transform.localScale += new Vector3(0.5f, 0.5f);
+        rabbit.IncreaseRabbitSize();
         this.CollectedHide();
     }
 }

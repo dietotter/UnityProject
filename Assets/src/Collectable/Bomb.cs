@@ -12,9 +12,7 @@ public class Bomb : Collectable {
         {
             if (rabbit.isBig)
             {
-                rabbit.isBig = false;
-                rabbit.transform.localScale = new Vector3(1, 1, 1);
-
+                rabbit.DecreaseRabbitSize();
                 rabbit.invulnerableTime = 4;
             }
             else

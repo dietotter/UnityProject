@@ -11,6 +11,8 @@ public class DeathHere : MonoBehaviour {
 
         if (rabbit != null)
         {
+            if(rabbit.isBig)
+                rabbit.DecreaseRabbitSize();
             LevelController.current.onRabitDeath(rabbit);
         }
     }

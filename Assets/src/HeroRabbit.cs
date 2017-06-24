@@ -6,7 +6,10 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 
-public class HeroRabbit : MonoBehaviour {
+public class HeroRabbit : MonoBehaviour
+{
+
+    public static HeroRabbit lastRabbit = null;
 
     public int speed = 1;
 
@@ -27,6 +30,11 @@ public class HeroRabbit : MonoBehaviour {
 
     // time when rabbit can't die from bombs
     public float invulnerableTime = 0;
+
+    void Awake()
+    {
+        lastRabbit = this;
+    }
 
     // Use this for initialization
     void Start ()
@@ -88,21 +96,24 @@ public class HeroRabbit : MonoBehaviour {
     void FixedUpdate()
     {
         // rabbit timers
-        rabbitTimers();
+        RabbitTimers();
 
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         Rigidbody2D myBody = GetComponent<Rigidbody2D>();
 
         // === MOVEMENT ===
-        if (Input.GetKey(KeyCode.LeftArrow) && isAlive)
+        if (isAlive)
         {
-            transform.Translate(Vector2.left * speed * Time.deltaTime);
-            sr.flipX = true;
-        }
-        if (Input.GetKey(KeyCode.RightArrow) && isAlive)
-        {
-            transform.Translate(Vector2.right * speed * Time.deltaTime);
-            sr.flipX = false;
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                transform.Translate(Vector2.left * speed * Time.deltaTime);
+                sr.flipX = true;
+            }
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                transform.Translate(Vector2.right * speed * Time.deltaTime);
+                sr.flipX = false;
+            }
         }
 
         // === IS GROUNDED CHECK ===
@@ -176,7 +187,7 @@ public class HeroRabbit : MonoBehaviour {
         }
     }
 
-    private void rabbitTimers()
+    private void RabbitTimers()
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
@@ -190,5 +201,26 @@ public class HeroRabbit : MonoBehaviour {
         {
             sr.color = Color.white;
         }
+    }
+
+    public void IncreaseRabbitSize()
+    {
+        isBig = true;
+        transform.localScale += new Vector3(0.5f, 0.5f);
+    }
+
+    public void DecreaseRabbitSize()
+    {
+        isBig = false;
+        transform.localScale = new Vector3(1, 1, 1);
+    }
+
+    // toss rabbit up after killing the orc
+    public void TossRabbitUp()
+    {
+        this.JumpTime = MaxJumpTime;
+
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.AddForce(transform.up * 300);
     }
 }
